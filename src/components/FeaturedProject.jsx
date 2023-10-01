@@ -1,8 +1,22 @@
-import React from "react";
+async function getData() {
+  const res = await fetch('https://agency.teamrabbil.com/api/FeaturedProject')
+   
+  
+   if (!res.ok) {
+     // This will activate the closest `error.js` Error Boundary
+     throw new Error('Failed to fetch data')
+   }
+  
+   return res.json()
+ }
+ 
 
-const FeaturedProject = () => {
+ async function FeaturedProject (){
+  const data= await getData()
+  // console.log(data)
   return (
     <>
+      <section>
       <section>
         <div className="py-20 bg-gray-50 radius-for-skewed">
           <div className="container mx-auto px-4">
@@ -29,42 +43,33 @@ const FeaturedProject = () => {
                 </div>
               </div>
               <div className="w-full lg:w-1/2">
-                <div className="mb-4 flex flex-wrap items-end">
+               {
+                data.map((item,i)=>{
+
+                  return  <div key={item.id} className="mb-4 flex flex-wrap items-end">
                   <div className="mb-4 lg:mb-0 w-full lg:w-2/3 px-3">
                     <img
                       className="w-full h-32 lg:h-48 object-cover rounded"
-                      src="https://images.unsplash.com/photo-1604701145653-ab3c97c63467?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-                      alt=""
+                      src={item.image}
+                      alt={item.itle}
                     />
                   </div>
                   <div className="w-full lg:w-1/3 px-3">
                     <img
                       className="w-full h-32 object-cover rounded"
-                      src="https://images.unsplash.com/photo-1521581171443-58a6b508b9ac?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+                      src={item.image}
                       alt=""
                     />
                   </div>
                 </div>
-                <div className="flex flex-wrap items-start">
-                  <div className="mb-4 lg:mb-0 w-full lg:w-1/3 px-3">
-                    <img
-                      className="w-full h-32 object-cover rounded"
-                      src="https://images.unsplash.com/photo-1501706649056-3cb79cccec52?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=701&q=80"
-                      alt=""
-                    />
-                  </div>
-                  <div className="w-full lg:w-2/3 px-3">
-                    <img
-                      className="w-full h-32 lg:h-48 object-cover rounded"
-                      src="https://images.unsplash.com/photo-1489058535093-8f530d789c3b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
-                      alt=""
-                    />
-                  </div>
-                </div>
+                })
+               }
+              
               </div>
             </div>
           </div>
         </div>
+      </section>
       </section>
     </>
   );

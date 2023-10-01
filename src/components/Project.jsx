@@ -1,6 +1,18 @@
-import React from "react";
+async function getData() {
+  const res = await fetch('https://agency.teamrabbil.com/api/AllProject')
+  
+ 
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data')
+  }
+ 
+  return res.json()
+}
 
-const Project = () => {
+async function Project (){
+  const data=await getData()
+  //  console.log(data)
   return (
     <>
       <section>
@@ -23,11 +35,14 @@ const Project = () => {
               </a>
             </div>
             <div className="flex flex-wrap -mx-4 mb-4">
-              <div className="mb-8 w-full md:w-1/2 lg:w-1/3 px-4">
+             {
+              data.map((item,i)=>{
+
+                return  <div key={item.id} className="mb-8 w-full md:w-1/2 lg:w-1/3 px-4">
                 <div className="bg-white rounded">
                   <img
                     className="rounded-t object-cover h-128"
-                    src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80"
+                    src={item.image}
                     alt=""
                   />
                   <div className="p-6">
@@ -56,7 +71,9 @@ const Project = () => {
                   </div>
                 </div>
               </div>
-              <div className="mb-8 w-full md:w-1/2 lg:w-1/3 px-4">
+              })
+             }
+              {/* <div className="mb-8 w-full md:w-1/2 lg:w-1/3 px-4">
                 <div className="bg-white rounded">
                   <img
                     className="rounded-t object-cover h-128"
@@ -220,7 +237,7 @@ const Project = () => {
                     </a>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="text-center">
               <a

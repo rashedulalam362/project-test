@@ -1,10 +1,23 @@
-import React from "react";
+async function getData() {
+  const res = await fetch('https://agency.teamrabbil.com/api/AllService')
+  
+ 
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data')
+  }
+ 
+  return res.json()
+}
 
-function AllService() {
+async function AllService() {
+  const data= await getData()
+
+  
   return (
     <>
       <section>
-        <div className="py-20 bg-gray-50 radius-for-skewed">
+      <div className="py-20 bg-gray-50 radius-for-skewed">
           <div className="container px-4 mx-auto">
             <div className="mb-16 flex flex-wrap justify-center md:justify-between items-center">
               <div className="text-center lg:text-left">
@@ -22,8 +35,38 @@ function AllService() {
                 View More Projects
               </a>
             </div>
-            <div className="flex flex-wrap -mx-4 mb-4">
-              <div className="w-full md:w-1/2 lg:w-1/3 mb-8 px-4">
+            <div className="flex flex-wrap -mx-4 mb-6 ">
+              {
+                data.map((item,i)=>{
+
+                  return  <div key={item.id} className="w-full md:w-1/2 lg:w-1/3 mb-8 px-4" >
+                  <a href="#">
+                    <img
+                      className="h-80 w-full mx-auto object-cover rounded gap-2"
+                      src={item.image1}
+                      alt={item.title}
+                    />
+                  </a>
+                  <a href="#">
+                    <img
+                      className="h-80 w-full mx-auto object-cover rounded"
+                      src={item.image2}
+                      alt={item.title}
+                    />
+                  </a>
+                  <a href="#">
+                    <img
+                      className="h-80 w-full mx-auto object-cover rounded"
+                      src={item.image4}
+                      alt={item.title}
+                    />
+                  </a>
+                </div>
+
+                })
+              } 
+
+              {/* <div className="w-full md:w-1/2 lg:w-1/3 mb-8 px-4">
                 <a href="#">
                   <img
                     className="h-80 w-full mx-auto object-cover rounded"
@@ -89,7 +132,7 @@ function AllService() {
                     alt=""
                   />
                 </a>
-              </div>
+              </div> */}
             </div>
             <div className="text-center">
               <a

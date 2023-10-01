@@ -1,6 +1,18 @@
-import React from "react";
+async function getData() {
+  const res = await fetch('https://agency.teamrabbil.com/api/AllProject')
+  
+ 
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data')
+  }
+ 
+  return res.json()
+}
 
-const TeamList = () => {
+async function TeamList  () {
+  const data=await getData()
+  console.log(data)
   return (
     <>
       <section>
@@ -15,20 +27,25 @@ const TeamList = () => {
               </h2>
             </div>
             <div className="flex flex-wrap">
-              <div className="mb-6 w-full md:w-1/2 lg:w-1/3 px-3">
-                <div className="pb-8 bg-white rounded shadow text-center overflow-hidden">
-                  <img
-                    className="mb-8 w-full h-64 object-cover"
-                    src="https://images.unsplash.com/photo-1580852300654-03c803a14e24?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-                    alt=""
-                  />
-                  <h4 className="mb-2 text-2xl font-bold font-heading">
-                    Danny Bailey
-                  </h4>
-                  <p className="text-gray-500">CEO</p>
+              {
+                data.map((item,i)=>{
+
+                  return <div key={item.id}className="mb-6 w-full md:w-1/2 lg:w-1/3 px-3">
+                  <div className="pb-8 bg-white rounded shadow text-center overflow-hidden">
+                    <img
+                      className="mb-8 w-full h-64 object-cover"
+                      src={item.image}
+                      alt=""
+                    />
+                    <h4 className="mb-2 text-2xl font-bold font-heading">
+                      Danny Bailey
+                    </h4>
+                    <p className="text-gray-500">CEO</p>
+                  </div>
                 </div>
-              </div>
-              <div className="mb-6 w-full md:w-1/2 lg:w-1/3 px-3">
+                })
+              }
+              {/* <div className="mb-6 w-full md:w-1/2 lg:w-1/3 px-3">
                 <div className="pb-8 bg-white rounded shadow text-center overflow-hidden">
                   <img
                     className="mb-8 w-full h-64 object-cover"
@@ -92,7 +109,7 @@ const TeamList = () => {
                   </h4>
                   <p className="text-gray-500">Product Designer</p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
